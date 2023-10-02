@@ -66,41 +66,27 @@
 
         <input type="submit" name="Register" value="Register">
         <?php
-if (array_key_exists('SearchClasses', $_POST)) {
-    $course_Code = $_POST['course_Code'];
-    
-    // Use SQL to retrieve data for the entered course code
-    $search_query = "SELECT * FROM class WHERE CourseID = '$course_Code';";
-    $result = $connection->query($search_query);
-    
-    if ($result) {
-        
-        // Display the results in a table
-        echo "<table border='1'>
-              <tr>
-                <th>Course Code</th>
-                <th>Instructor</th>
-                <th>Room</th>
-                <th>Schedule</th>
-                <th>No. of Students</th>
-              </tr>";
-              
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . $row['CourseID'] . "</td>";
-            echo "<td>" . $row['InstructorID'] . "</td>";
-            echo "<td>" . $row['RoomID'] . "</td>";
-            echo "<td>" . $row['Schedule'] . "</td>";
-            echo "<td>" . $row['NoOfStudents'] . "</td>";
-            echo "</tr>";
-        }
-        
-        echo "</table>";
-    } else {
-        echo "No results found.";
-    }
-}
-?>
+         if (array_key_exists('Register', $_POST))
+         {
+             $Course_Code = $_POST['course_code'];
+             $InstructorName = $_POST['instructor'];
+             $RoomName = $_POST['room'];
+             $Schedule = $_POST['schedule'];
+             $NoOfStudents = $_POST['NoOfStudents'];
+             
+             $insert_person= "INSERT INTO class (CourseID, InstructorID, RoomID, Schedule, NoOfStudents) 
+                              VALUES ('$Course_Code', '$InstructorName', '$RoomName', '$Schedule', '$NoOfStudents');";
+             
+             $result = $connection->query($insert_person);
+             if (!$result) {
+                die('Error: ' . mysqli_error($connection));
+            } else {
+                echo "Record added successfully";
+            }
+         }
+          
+         
+        ?>
     </form>
 </body>
 </html>
